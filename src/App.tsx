@@ -24,81 +24,82 @@ const factions = [
   { id: 'shroud', name: 'SHROUD ASCENDANT', icon: Skull, url: 'https://shroud.kybian.com', description: 'A cult seeking transcendence through the Veil.' },
 ];
 
+const bootSequence = [
+  { msg: "[ SYSTEM BOOT INITIATED ]", delay: 500 },
+  { msg: "[ KERNEL_v6.4.2 LOADING... ]", delay: 800 },
+  { msg: "[ MEMORY CHECK: 128TB OK ]", delay: 400 },
+  { msg: "[ CONNECTING TO SECTOR RELAYS... ]", delay: 1000 },
+  { msg: "[ DETECTING FRACTURE INSTABILITY... ]", delay: 600 },
+  { msg: "[ WARNING: RADIOLOGICAL INTERFERENCE DETECTED ]", delay: 400, type: 'warning' },
+  { msg: "[ BYPASSING DIRECTORATE FIREWALLS... ]", delay: 1200 },
+  { msg: "[ DECRYPTING VANGUARD_DATA_STREAM... ]", delay: 900 },
+  { msg: "[ HUB CONNECTED ]", delay: 500 },
+];
+
+function BootScreen({ onFinish }: { onFinish: () => void }) {
+  const [logs, setLogs] = useState<string[]>([]);
+  const [progress, setProgress] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < bootSequence.length) {
+      const timer = setTimeout(() => {
+        setLogs((prev) => [...prev, bootSequence[currentIndex].msg]);
+        setProgress(((currentIndex + 1) / bootSequence.length) * 100);
+        setCurrentIndex((prev) => prev + 1);
+      }, bootSequence[currentIndex].delay);
+      return () => clearTimeout(timer);
+    } else {
+      const finishTimer = setTimeout(() => onFinish(), 1000);
+      return () => clearTimeout(finishTimer);
+    }
+  }, [currentIndex, onFinish]);
+
+  return (
+    <div className="boot-screen">
+      <div className="boot-content">
+        <div className="boot-scanner">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="scanner-hex">
+              {Math.random().toString(16).substr(2, 8).toUpperCase()}
+            </div>
+          ))}
+        </div>
+        <div className="boot-logs">
+          {logs.map((log, i) => (
+            <div key={i} className={`log-line ${log.includes('WARNING') ? 'warning' : ''}`}>
+              {log}
+            </div>
+          ))}
+          <motion.span 
+            animate={{ opacity: [1, 0] }} 
+            transition={{ repeat: Infinity, duration: 0.8 }}
+            className="cursor"
+          >_</motion.span>
+        </div>
+        <div className="boot-progress-wrap">
+          <div className="progress-label">SYSTEM_LOAD: {Math.round(progress)}%</div>
+          <div className="boot-progress-bar">
+            <motion.div 
+              className="boot-progress-fill" 
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [booted, setBooted] = useState(false);
   const [tickerIndex, setTickerIndex] = useState(0);
-  const [command, setCommand] = useState('');
-  const [history, setHistory] = useState<string[]>(['RELAY LINK ESTABLISHED...', 'TYPE "HELP" FOR COMMANDS.']);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setBooted(true), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const tickerTimer = setInterval(() => {
-      setTickerIndex((prev) => (prev + 1) % newsItems.length);
-    }, 5000);
-    return () => clearInterval(tickerTimer);
-  }, []);
-
-  useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [history]);
-
-  const handleCommand = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!command.trim()) return;
-
-    const cmd = command.toLowerCase().trim();
-    let response = `UNKNOWN COMMAND: ${cmd}`;
-
-    if (cmd === 'help') {
-      response = 'AVAILABLE COMMANDS: HELP, CLEAR, STATUS, WHOIS [FACTION], RELAY [FACTION], SCAN';
-    } else if (cmd === 'clear') {
-      setHistory([]);
-      setCommand('');
-      return;
-    } else if (cmd === 'status') {
-      response = `VEIL STABILITY: 52% | ALPHA RESERVES: 14.2% | CONNECTED RELAYS: 11`;
-    } else if (cmd.startsWith('whois ')) {
-      const target = cmd.split(' ')[1];
-      const faction = factions.find(f => f.id === target || f.name.toLowerCase().includes(target));
-      response = faction ? `${faction.name}: ${faction.description}` : `FACTION NOT FOUND: ${target}`;
-    } else if (cmd === 'scan') {
-      response = 'SCANNING... DETECTING VEIL-STORM IN SECTOR 4. RADIOLOGICAL SPIKE CONFIRMED.';
-    } else if (cmd.startsWith('relay ')) {
-      const target = cmd.split(' ')[1];
-      const faction = factions.find(f => f.id === target || f.name.toLowerCase().includes(target));
-      if (faction) {
-        window.location.href = faction.url;
-        response = `REDIRECTING TO ${faction.name} RELAY...`;
-      } else {
-        response = `RELAY TARGET NOT FOUND: ${target}`;
-      }
-    }
-
-    setHistory(prev => [...prev, `> ${command}`, response]);
-    setCommand('');
-  };
-
+...
   if (!booted) {
-    return (
-      <div className="boot-screen">
-        <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          className="boot-text"
-        >
-          [ SYSTEM BOOT INITIATED ]<br/>
-          [ LOADING SECTOR RELAYS... ]<br/>
-          [ DECRYPTING FRACTURE DATA... ]<br/>
-          [ HUB CONNECTED ]
-        </motion.div>
-      </div>
-    );
+    return <BootScreen onFinish={() => setBooted(true)} />;
   }
+
 
   return (
     <div className="terminal-container">
