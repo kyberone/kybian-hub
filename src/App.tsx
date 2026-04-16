@@ -25,15 +25,15 @@ const factions = [
 ];
 
 const bootSequence = [
-  { msg: "[ SYSTEM BOOT INITIATED ]", delay: 500 },
-  { msg: "[ KERNEL_v6.4.2 LOADING... ]", delay: 800 },
-  { msg: "[ MEMORY CHECK: 128TB OK ]", delay: 400 },
-  { msg: "[ CONNECTING TO SECTOR RELAYS... ]", delay: 1000 },
-  { msg: "[ DETECTING FRACTURE INSTABILITY... ]", delay: 600 },
-  { msg: "[ WARNING: RADIOLOGICAL INTERFERENCE DETECTED ]", delay: 400, type: 'warning' },
-  { msg: "[ BYPASSING DIRECTORATE FIREWALLS... ]", delay: 1200 },
-  { msg: "[ DECRYPTING VANGUARD_DATA_STREAM... ]", delay: 900 },
-  { msg: "[ HUB CONNECTED ]", delay: 500 },
+  { msg: "[ SYSTEM BOOT INITIATED ]", delay: 200 },
+  { msg: "[ KERNEL_v6.4.2 LOADING... ]", delay: 300 },
+  { msg: "[ MEMORY CHECK: 128TB OK ]", delay: 150 },
+  { msg: "[ CONNECTING TO SECTOR RELAYS... ]", delay: 400 },
+  { msg: "[ DETECTING FRACTURE INSTABILITY... ]", delay: 200 },
+  { msg: "[ WARNING: RADIOLOGICAL INTERFERENCE DETECTED ]", delay: 150, type: 'warning' },
+  { msg: "[ BYPASSING DIRECTORATE FIREWALLS... ]", delay: 500 },
+  { msg: "[ DECRYPTING VANGUARD_DATA_STREAM... ]", delay: 400 },
+  { msg: "[ HUB CONNECTED ]", delay: 200 },
 ];
 
 function BootScreen({ onFinish }: { onFinish: () => void }) {
