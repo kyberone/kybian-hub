@@ -301,7 +301,7 @@ h3 {
   align-items: center;
   gap: 18px;
   padding: 18px;
-  border: var(--border-style);
+  border: 1px solid var(--terminal-dim);
   text-decoration: none;
   color: var(--terminal-green);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -326,10 +326,10 @@ h3 {
 }
 
 .relay-card:hover {
-  background: rgba(0, 255, 65, 0.1);
-  border-color: var(--terminal-green);
-  box-shadow: 0 0 20px var(--terminal-glow);
-  transform: scale(1.02);
+  background: rgba(0, 40, 0, 0.4);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 20px var(--accent-color);
+  transform: translateY(-2px);
 }
 
 .relay-info {
@@ -357,9 +357,9 @@ h3 {
   display: inline-block;
   width: 6px;
   height: 6px;
-  background: var(--terminal-green);
+  background: var(--accent-color);
   border-radius: 50%;
-  box-shadow: 0 0 5px var(--terminal-green);
+  box-shadow: 0 0 5px var(--accent-color);
 }
 
 .terminal-footer {

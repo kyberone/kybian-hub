@@ -12,16 +12,16 @@ const newsItems = [
 ];
 
 const factions = [
-  { id: 'mandate', name: 'SOVEREIGN MANDATE', icon: Shield, url: 'https://mandate.kybian.com', description: 'The old empire, fighting to maintain order.' },
-  { id: 'directorate', name: 'THE DIRECTORATE', icon: Zap, url: 'https://directorate.kybian.com', description: 'The iron fist of the Mandate.' },
-  { id: 'axium', name: 'AXIUM COALITION', icon: Radio, url: 'https://axium.kybian.com', description: 'Freedom-loving scavengers of the Outer Rim.' },
-  { id: 'echo', name: 'KYBIAN ECHO', icon: Eye, url: 'https://echo.kybian.com', description: 'Covert scientists guarding the galaxy.' },
-  { id: 'azc', name: 'ASTRA ZEMPARI CORP', icon: Globe, url: 'https://azc.kybian.com', description: 'The corporate giants of Kybian refining.' },
-  { id: 'siradinari', name: 'SIRA DINARI', icon: Database, url: 'https://siradinari.kybian.com', description: 'Ancient scholars and warriors of the Deep.' },
-  { id: 'sidian', name: 'SIDIAN CONSORTIUM', icon: Cpu, url: 'https://sidian.kybian.com', description: 'Industrial lords of the Shard-Yard.' },
-  { id: 'redledger', name: 'THE RED LEDGER', icon: Activity, url: 'https://redledger.kybian.com', description: 'Brokers of information and debt.' },
-  { id: 'obsidiandusk', name: 'OBSIDIAN DUSK', icon: Terminal, url: 'https://obsidiandusk.kybian.com', description: 'Ghosts of the radioactive clouds.' },
-  { id: 'shroud', name: 'SHROUD ASCENDANT', icon: Skull, url: 'https://shroud.kybian.com', description: 'A cult seeking transcendence through the Veil.' },
+  { id: 'mandate', name: 'SOVEREIGN MANDATE', icon: Shield, url: 'https://mandate.kybian.com', description: 'The old empire, fighting to maintain order.', color: '#ffb400' },
+  { id: 'directorate', name: 'THE DIRECTORATE', icon: Zap, url: 'https://directorate.kybian.com', description: 'The iron fist of the Mandate.', color: '#e0e0e0' },
+  { id: 'axium', name: 'AXIUM COALITION', icon: Radio, url: 'https://axium.kybian.com', description: 'Freedom-loving scavengers of the Outer Rim.', color: '#ff6b00' },
+  { id: 'echo', name: 'KYBIAN ECHO', icon: Eye, url: 'https://echo.kybian.com', description: 'Covert scientists guarding the galaxy.', color: '#00f2ff' },
+  { id: 'azc', name: 'ASTRA ZEMPARI CORP', icon: Globe, url: 'https://azc.kybian.com', description: 'The corporate giants of Kybian refining.', color: '#3b82f6' },
+  { id: 'siradinari', name: 'SIRA DINARI', icon: Database, url: 'https://siradinari.kybian.com', description: 'Ancient scholars and warriors of the Deep.', color: '#a855f7' },
+  { id: 'sidian', name: 'SIDIAN CONSORTIUM', icon: Cpu, url: 'https://sidian.kybian.com', description: 'Industrial lords of the Shard-Yard.', color: '#ef4444' },
+  { id: 'redledger', name: 'THE RED LEDGER', icon: Activity, url: 'https://redledger.kybian.com', description: 'Brokers of information and debt.', color: '#991b1b' },
+  { id: 'obsidiandusk', name: 'OBSIDIAN DUSK', icon: Terminal, url: 'https://obsidiandusk.kybian.com', description: 'Ghosts of the radioactive clouds.', color: '#6b7280' },
+  { id: 'shroud', name: 'SHROUD ASCENDANT', icon: Skull, url: 'https://shroud.kybian.com', description: 'A cult seeking transcendence through the Veil.', color: '#10b981' },
 ];
 
 const bootSequence = [
@@ -278,10 +278,15 @@ function App() {
           <h3>GALACTIC_RELAY_GRID</h3>
           <div className="relay-grid">
             {factions.map((faction) => (
-              <a key={faction.id} href={faction.url} className="relay-card">
-                <faction.icon size={24} />
+              <a 
+                key={faction.id} 
+                href={faction.url} 
+                className="relay-card"
+                style={{ '--accent-color': faction.color } as React.CSSProperties}
+              >
+                <faction.icon size={24} style={{ color: 'var(--accent-color)' }} />
                 <div className="relay-info">
-                  <span className="relay-name">{faction.name}</span>
+                  <span className="relay-name" style={{ color: 'var(--accent-color)' }}>{faction.name}</span>
                   <span className="relay-status">STABLE</span>
                 </div>
               </a>
