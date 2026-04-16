@@ -95,11 +95,62 @@ function BootScreen({ onFinish }: { onFinish: () => void }) {
 function App() {
   const [booted, setBooted] = useState(false);
   const [tickerIndex, setTickerIndex] = useState(0);
-...
+  const [command, setCommand] = useState('');
+  const [history, setHistory] = useState<string[]>(['RELAY LINK ESTABLISHED...', 'TYPE "HELP" FOR COMMANDS.']);
+  const terminalEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const tickerTimer = setInterval(() => {
+      setTickerIndex((prev) => (prev + 1) % newsItems.length);
+    }, 5000);
+    return () => clearInterval(tickerTimer);
+  }, []);
+
+  useEffect(() => {
+    if (booted) {
+      terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [history, booted]);
+
+  const handleCommand = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!command.trim()) return;
+
+    const cmd = command.toLowerCase().trim();
+    let response = `UNKNOWN COMMAND: ${cmd}`;
+
+    if (cmd === 'help') {
+      response = 'AVAILABLE COMMANDS: HELP, CLEAR, STATUS, WHOIS [FACTION], RELAY [FACTION], SCAN';
+    } else if (cmd === 'clear') {
+      setHistory([]);
+      setCommand('');
+      return;
+    } else if (cmd === 'status') {
+      response = `VEIL STABILITY: 52% | ALPHA RESERVES: 14.2% | CONNECTED RELAYS: 11`;
+    } else if (cmd.startsWith('whois ')) {
+      const target = cmd.split(' ')[1];
+      const faction = factions.find(f => f.id === target || f.name.toLowerCase().includes(target));
+      response = faction ? `${faction.name}: ${faction.description}` : `FACTION NOT FOUND: ${target}`;
+    } else if (cmd === 'scan') {
+      response = 'SCANNING... DETECTING VEIL-STORM IN SECTOR 4. RADIOLOGICAL SPIKE CONFIRMED.';
+    } else if (cmd.startsWith('relay ')) {
+      const target = cmd.split(' ')[1];
+      const faction = factions.find(f => f.id === target || f.name.toLowerCase().includes(target));
+      if (faction) {
+        window.location.href = faction.url;
+        response = `REDIRECTING TO ${faction.name} RELAY...`;
+      } else {
+        response = `RELAY TARGET NOT FOUND: ${target}`;
+      }
+    }
+
+    setHistory(prev => [...prev, `> ${command}`, response]);
+    setCommand('');
+  };
+
   if (!booted) {
     return <BootScreen onFinish={() => setBooted(true)} />;
   }
-
 
   return (
     <div className="terminal-container">
@@ -203,4 +254,3 @@ function App() {
 }
 
 export default App;
-
