@@ -22,9 +22,23 @@ body {
   width: 100vw;
 }
 
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+    height: auto;
+  }
+}
+
 #root {
   height: 100%;
 }
+
+@media (max-width: 768px) {
+  #root {
+    height: auto;
+  }
+}
+
 
 /* CRT Scanline Effect */
 body::before {

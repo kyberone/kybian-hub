@@ -273,16 +273,74 @@ h3 {
   line-height: 2;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+  .terminal-main {
+    grid-template-columns: 300px 1fr;
+  }
 }
-::-webkit-scrollbar-track {
-  background: transparent;
+
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+  }
+
+  .terminal-container {
+    height: auto;
+    min-height: 100vh;
+    padding: 10px;
+  }
+
+  .terminal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .status-bars {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .terminal-main {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .side-panel {
+    order: 2;
+  }
+
+  .faction-directory {
+    order: 1;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .terminal-console {
+    height: 300px;
+    flex-grow: 0;
+  }
+
+  .relay-grid {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  .news-ticker {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+
+  .terminal-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    text-align: center;
+  }
 }
-::-webkit-scrollbar-thumb {
-  background: var(--terminal-dim);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--terminal-green);
-}
+
