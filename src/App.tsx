@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Shield, Zap, Radio, Cpu, Eye, Activity, ChevronRight, AlertCircle, RefreshCw } from 'lucide-react';
+import { Terminal, Shield, Zap, Skull, Radio, Globe, Database, Cpu, Eye, Activity, ChevronRight, AlertCircle, RefreshCw } from 'lucide-react';
 import './App.css';
 
 const newsItems = [
